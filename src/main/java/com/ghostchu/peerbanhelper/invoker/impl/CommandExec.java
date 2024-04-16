@@ -3,17 +3,15 @@ package com.ghostchu.peerbanhelper.invoker.impl;
 import com.ghostchu.peerbanhelper.PeerBanHelperServer;
 import com.ghostchu.peerbanhelper.invoker.BanListInvoker;
 import com.ghostchu.peerbanhelper.text.Lang;
+import com.ghostchu.peerbanhelper.util.ExecUtil;
 import com.ghostchu.peerbanhelper.wrapper.BanMetadata;
 import com.ghostchu.peerbanhelper.wrapper.PeerAddress;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class CommandExec implements BanListInvoker {
@@ -42,7 +40,7 @@ public class CommandExec implements BanListInvoker {
             return;
         }
         for (String c : this.resetCommands) {
-            invokeCommand(c, new HashMap<>(0));
+            ExecUtil.invokeCommand(c, new HashMap<>(0));
         }
     }
 
@@ -56,7 +54,7 @@ public class CommandExec implements BanListInvoker {
             for (Map.Entry<String, String> e : map.entrySet()) {
                 c = c.replace("{%" + e.getKey() + "%}", e.getValue());
             }
-            invokeCommand(c, map);
+            ExecUtil.invokeCommand(c, map);
         }
     }
 
@@ -70,7 +68,7 @@ public class CommandExec implements BanListInvoker {
             for (Map.Entry<String, String> e : map.entrySet()) {
                 c = c.replace("{%" + e.getKey() + "%}", e.getValue());
             }
-            invokeCommand(c, map);
+            ExecUtil.invokeCommand(c, map);
         }
     }
 
@@ -95,28 +93,5 @@ public class CommandExec implements BanListInvoker {
 
     }
 
-    private void invokeCommand(String command, Map<String, String> env) {
-        StringTokenizer st = new StringTokenizer(command);
-        String[] cmdarray = new String[st.countTokens()];
-        for (int i = 0; st.hasMoreTokens(); i++)
-            cmdarray[i] = st.nextToken();
-        try {
-            ProcessBuilder builder = new ProcessBuilder(cmdarray)
-                    .inheritIO();
-            Map<String, String> liveEnv = builder.environment();
-            liveEnv.putAll(env);
-            Process p = builder.start();
-            p.waitFor(5, TimeUnit.SECONDS);
-            if (p.isAlive()) {
-                log.info(Lang.BANLIST_INVOKER_COMMAND_EXEC_TIMEOUT, command);
-            }
-            p.onExit().thenAccept(process -> {
-                if (process.exitValue() != 0) {
-                    log.warn(Lang.BANLIST_INVOKER_COMMAND_EXEC_FAILED, command, process.exitValue());
-                }
-            });
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

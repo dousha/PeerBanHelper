@@ -89,4 +89,11 @@ public class Lang {
     public static String BANLIST_INVOKER_COMMAND_EXEC_TIMEOUT = "[BanListInvoker] 执行命令 {} 时超时，PBH 不再继续等待进程";
     public static String BANLIST_INVOKER_COMMAND_EXEC_FAILED = "[BanListInvoker] 执行命令 {} 时，进程返回非零状态码（{}），这可能意味着命令未被成功执行，请查看";
     public static String BAN_PEER_REVERSE_LOOKUP = "[DNS反向查找] IP 地址 {} 反向 DNS 记录为：{}";
+
+    public static String GUI_MENU_WEBUI = "WebUI";
+    public static String GUI_MENU_WEBUI_OPEN = "打开 WebUI……";
+    public static String GUI_MENU_ABOUT = "关于";
+    public static String GUI_TRAY_MESSAGE_CAPTION = "PeerBanHelper 正在后台运行";
+    public static String GUI_TRAY_MESSAGE_DESCRIPTION = "点击托盘图标重新打开窗口；右键托盘图标可完全退出";
+    public static String WINDOWS_GUI_CONSOLE_ALERT = "在 Windows 系统下，您可以使用 noconsole 映像（Native-Image）或 javaw （JVM）来启用 PeerBanHelper 以隐藏黑色的控制台窗口。\n之后不会再提醒。";
 }

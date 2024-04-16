@@ -3,6 +3,7 @@ package com.ghostchu.peerbanhelper;
 import com.ghostchu.peerbanhelper.downloader.Downloader;
 import com.ghostchu.peerbanhelper.downloader.impl.qbittorrent.QBittorrent;
 import com.ghostchu.peerbanhelper.downloader.impl.transmission.Transmission;
+import com.ghostchu.peerbanhelper.gui.GuiManager;
 import com.ghostchu.peerbanhelper.text.Lang;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,8 @@ public class Main {
     private static final AtomicInteger shutdown = new AtomicInteger(0);
 
     public static void main(String[] args) throws InterruptedException, IOException {
+        GuiManager guiManager = new GuiManager(args);
+        guiManager.onColorThemeChanged();
         initLogger();
         workaroundGraalVM();
         initBuildMeta();
