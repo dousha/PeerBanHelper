@@ -42,7 +42,7 @@ public class BtnNetwork {
 
     public BtnNetwork(PeerBanHelperServer server, ConfigurationSection section) {
         this.server = server;
-        if (!section.getBoolean("enabled")) {
+        if (section == null || !section.getBoolean("enabled")) {
             throw new IllegalStateException("BTN has been disabled");
         }
         this.configUrl = section.getString("config-url");
